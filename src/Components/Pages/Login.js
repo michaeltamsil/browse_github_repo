@@ -1,10 +1,33 @@
 import React, { useState } from "react";
-import { SafeAreaView, StyleSheet, TextInput } from "react-native";
+import axios from 'axios';
+import { Alert, Button, SafeAreaView, StyleSheet, TextInput  } from "react-native";
+
+
+
 
 const Login = () => {
 
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
+
+  const doLogin = () => {
+    axios.get('https://api.github.com/user',{
+      headers: {
+        'Accept': 'application/vnd.github.v3+json',
+        'Authorization': 'Token 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',
+      }
+    })
+    .then(response => {
+      console.log(response);
+      debugger;
+    })
+    .catch(error => {
+      Alert.alert(
+        'Terjadi Kesalahan',
+        error.message
+      )
+    })
+  }
   
   return (
     <SafeAreaView>
@@ -20,6 +43,13 @@ const Login = () => {
         secureTextEntry={true}
         style={styles.input}
         value={password}
+      />
+      <Button
+        onPress={() => {
+          doLogin();
+        }}
+        style={styles.input}
+        title="Masuk"
       />
     </SafeAreaView>
   );
